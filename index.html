@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>L-system Viewer</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta charset="utf-8" />
+		<script type="text/javascript" src="renderercontroller.js" ></script>
+		<script type="text/javascript" src="samples.js" ></script>
+		<script type="text/javascript" src="lsystem.js" ></script>
+		<script type="text/javascript" src="utils.js" ></script>
+		<script type="text/javascript" src="turtle.js" ></script>
+		<script type="text/javascript" src="objects.js" ></script>
+		<script type="text/javascript" src="main.js" ></script>
+		<!--- renderer -->
+		<script type="text/javascript" src="obj-webgl-viewer/gl-matrix.js" ></script>
+		<script type="text/javascript" src="obj-webgl-viewer/meshutils.js" ></script>
+		<script type="text/javascript" src="obj-webgl-viewer/renderer.js" ></script>
+		<script type="text/javascript" src="obj-webgl-viewer/timer.js" ></script>
+		<script type="text/javascript" src="obj-webgl-viewer/cameracontroller.js" ></script>
+		<script type="text/javascript" src="obj-webgl-viewer/scenecontroller.js" ></script>
+		<script type="text/javascript" src="obj-webgl-viewer/lvrl/util.js" ></script>
+		<script type="text/javascript" src="obj-webgl-viewer/lvrl/examine.js" ></script>
+		<script type="text/javascript" src="obj-webgl-viewer/lvrl/fly.js" ></script>
+		<script id="vertex-shader" type="x-shader/x-fragment">
+			attribute vec3 position;
+			attribute vec3 normal;
+			attribute vec2 texcoord;
+			
+			uniform highp mat4 viewProjection;
+			uniform highp mat4 modelView;
+			uniform highp mat4 normalMatrix;
+			
+			uniform vec4 color;
+			
+			varying vec4 currentColor;
+			
+			varying vec3 vPosition;
+			varying vec3 vNormal;
+			varying vec2 vTexcoord;
+			
+			
+			void main (void)
+			{
+				gl_Position =  viewProjection * vec4(position, 1.0);
+				
+				currentColor = color;
+			
+				vTexcoord = texcoord;
+			
+				vec4 vPosition4 = modelView * vec4(position, 1.0);
+				vPosition = vPosition4.xyz / vPosition4.w;
+				
+				vNormal = mat3(normalMatrix) * normal;
+				vNormal = normalize(vNormal);
+			}
+		</script>
+		<script id="fragment-shader" type="x-shader/x-vertex">
+			precision mediump float;
+			varying vec4 currentColor;
+			varying vec3 vNormal;
+			varying vec2 vTexcoord;
+			varying vec3 vPosition;
+			uniform vec3 lightPosition;
+			uniform sampler2D texSampler;
+			uniform float useTexture;
+			uniform float unlit;
+			
+			void main(void)
+			{
+				if(unlit >0.0)
+				{
+					gl_FragColor = currentColor;
+				}
+				else
+				{
+					vec3 lightDir = normalize(lightPosition - vPosition);
+				
+					// Ambient
+					vec3 ambient = vec3(0.1);
+					float d = abs(dot(vNormal, lightDir));
+					
+					// Diffuse
+					vec3 diffuse = vec3(d);
+					
+					vec3 illumination = diffuse + ambient;
+					if(useTexture == 0.0)
+					{
+						gl_FragColor = vec4(illumination * currentColor.rgb, currentColor.a);
+					}
+					else
+					{
+						vec4 texel = texture2D(texSampler, vTexcoord);
+						gl_FragColor = vec4(illumination * currentColor.rgb * texel.rgb, currentColor.a);
+						// gl_FragColor = vec4(vTexcoord, 0, currentColor.a);
+					}
+				}
+				
+				
+				
+			}
+		</script>
+		
+		<link type="text/css" rel="stylesheet" href="style.css"/>
+	</head>
+	<body>
+		<div id="main">
+			<canvas id="canvas" width="1024" height="1024"></canvas>
+			<canvas id="canvas-drawer" width="256" height="256"></canvas>
+			
+		</div>
+		<div id="view_controller">
+
+			<span>L-system</span>
+			<!-- Yes i will use table, it works! -->
+			<table>
+				<tr>
+					<td>Load sample</td>
+					<td>
+						<select id="sample-select">
+							<option value="plant2d">Fractal Plant 2D</option>
+							<option value="kochcurve">Koch Curve</option>
+							<option value="dragoncurve">Dragon Curve</option>
+							<option value="sierpinski">Sierpinski</option>
+							<option value="plant3d">Fractal Plant 3D</option>
+							<option value="hilbertCurve3d">Hilbert Curve 3D</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Iterations</td>
+					<td><input id="iterations-input" type="number" value="3" step="1"></td>
+				</tr>
+				<tr>
+					<td>Angle</td>
+					<td><input id="angle-input" type="number" value="90" step="0.1"></td>
+				</tr>
+				<tr>
+					<td>Base Color</td>
+					<td><input id="base-color-input" type="color" value="#FF0000"></td>
+				</tr>	
+				<tr>
+					<td>Axiom</td>
+					<td><input id="axiom-input"></td>
+				</tr>	
+				<tr>
+					<td>Variable is forward?</td>
+					<td>
+						<input id="forward-var-checkbox" type="checkbox" checked>
+					</td>
+				</tr>
+
+			</table>
+			<textarea id="lsystem-editor" rows="10"></textarea>
+			<input type="button" id="draw-button" class="action-button" value="Draw" >
+			
+		</div>
+		
+	</body>
+</html>
