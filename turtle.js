@@ -60,7 +60,7 @@ function Turtle()
             else if(word === "^")
             {
                 // turtleState = glm::rotate(turtleState,-angle,glm::vec3(0,1.0f,0));
-                mat4.rotate(turtleState, -turtleState, angle, vec3.fromValues(0, 1.0, 0));
+                mat4.rotate(turtleState, turtleState, -angle, vec3.fromValues(0, 1.0, 0));
             }
             else if(word ==="\\")
             {
@@ -114,7 +114,6 @@ function Turtle()
             let err = "Max objects generated!";
             throw err;
         }
-    
         return outMatrices;
     }
 

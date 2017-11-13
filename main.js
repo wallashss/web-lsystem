@@ -5,7 +5,7 @@ let samples = {kochcurve: kochCurve(),
              dragoncurve: dragonCurve(),
               sierpinski: sierpinski(), 
                  plant3d: fractalPlant3d(),
-          hilbertCurve3d: hilbertCurve3d()};
+          hilbertcurve3d: hilbertCurve3d()};
 
 let iterationsInput = null;
 let angleInput = null;
