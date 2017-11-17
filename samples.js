@@ -74,7 +74,7 @@ function fractalPlant3d()
 {
     let plant = {};
 
-    plant.axiom = "F";
+    plant.axiom = "////F";
 
     plant.rules = {};
     plant.rules["F"] = createRule("F[&+F]F[-/F][-/F][&F]");

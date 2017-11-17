@@ -16,12 +16,15 @@ let goToCenter = function()
 
 	let maxSize = size[0] > size[1] ? size[0] : size[1];
 	maxSize = size[2] > maxSize ? size[2] : maxSize;
+	maxSize = maxSize > 10 ? maxSize : 10;
 
+	
 	let eye = vec3.fromValues(center[0], center[1], center[2] - maxSize);
 	let up = vec3.fromValues(0.0, 1.0, 0.0);
 
 	// camera.setVelocity(Math.min(Math.min(size[0], size[1]), size[2]));
 	camera.setCamera(eye, center, up);
+	camera.setVelocity(Math.min(Math.min(size[0], size[1]), size[2]));
 }
 
 function initRenderer()
