@@ -35,14 +35,18 @@ function initRenderer()
 	let canvas = document.getElementById("canvas");
 
 	let vertexScript = document.getElementById("vertex-shader");
+	let instanceVertexScript = document.getElementById("instance-vertex-shader");
 	let fragmentScript = document.getElementById("fragment-shader");
 	
 	let vertexSource = vertexScript.childNodes[0].nodeValue;
 	let fragmentSource = fragmentScript.childNodes[0].nodeValue;
+	let instanceVertexSource = instanceVertexScript.childNodes[0].nodeValue;
 	
 	renderer = new Renderer();
 	renderer.setBackgroundColor(0.5, 0.5, 0.6, 1);
 	renderer.load(canvas, vertexSource, fragmentSource);
+
+	renderer.loadShaders(instanceVertexSource, fragmentSource, Renderer.INSTACE_PROGRAM);
 
 	// Initialize cameracontroller
 	camera = new CameraController();

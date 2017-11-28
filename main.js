@@ -53,7 +53,6 @@ function draw()
         });
     });
 
-
     let cylinder = createCylinder(16);
     let vertices = new Array(cylinder.vertices.length);
     color = hexToRgb(color);
@@ -61,14 +60,15 @@ function draw()
     renderer.clearBatches();
     scene.reset();
 
-    let colors = [];
+    let colors = new Array(matrices.length);
     let defaultColor = vec4.fromValues(color.r/255, color.g/255, color.b/255, 1.0);
+    
     for(let i = 0; i < matrices.length; i++)
     {
         let m = matrices[i];
         
         let center = {x: m[4*3], y: m[4*3+1], z: m[4*3+2]};
-        colors.push(defaultColor);
+        colors[i] = defaultColor;
         scene.expand(center.x, center.y, center.z);
     }
     
