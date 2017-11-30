@@ -15,6 +15,7 @@ let lsystemEditor = null;
 let baseColorInput = null;          
 
 let turtle = new Turtle();
+let cylinder = null;
 
 function loadSample(sampleName)
 {
@@ -53,8 +54,6 @@ function draw()
         });
     });
 
-    let cylinder = createCylinder(16);
-    let vertices = new Array(cylinder.vertices.length);
     color = hexToRgb(color);
 
     renderer.clearBatches();
@@ -71,8 +70,8 @@ function draw()
         colors[i] = defaultColor;
         scene.expand(center.x, center.y, center.z);
     }
-    
-    renderer.addObjectInstances(cylinder.vertices, cylinder.elements, colors, matrices);
+    renderer.addInstances(cylinder, colors, matrices);
+    // renderer.addObjectInstances(cylinder.vertices, cylinder.elements, colors, matrices);
     goToCenter();
 
 }
@@ -100,6 +99,9 @@ function initApp()
     });
     
     sampleSelector.value = "kochcurve";
+    let cylinderMesh = createCylinder(16);
+    cylinder = renderer.uploadMesh(cylinderMesh.vertices, cylinderMesh.elements);
+    
     loadSample("kochcurve");
     draw();
 }
