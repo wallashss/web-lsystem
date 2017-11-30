@@ -49,7 +49,7 @@ function initRenderer()
 	renderer.loadShaders(instanceVertexSource, fragmentSource, Renderer.INSTACE_PROGRAM);
 
 	// Initialize cameracontroller
-	camera = new CameraController();
+	camera = new Camera();
 	camera.installCamera(canvas, function(viewMatrix, dt)
 	{
 		renderer.setViewMatrix(viewMatrix);
