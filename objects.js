@@ -1,6 +1,6 @@
 "use strict"
 
-function generateSphereMesh(resolution)
+function createSphere(resolution)
 {
     let sphere = {vertices: [], 
                    elements: []};
@@ -82,6 +82,7 @@ function generateSphereMesh(resolution)
 
     return sphere;
 }
+
 function createCylinder(resolution, height, radius)
 {
     height = height ? height : 1.0;
@@ -127,4 +128,99 @@ function createCylinder(resolution, height, radius)
     }
 
     return cylinder;
+}
+function createCube()
+{
+    let cube = {vertices: [], elements: []};
+
+    // Bottom
+    cube.vertices.push(-0.5, -0.5, -0.5 , 0, 0, -1.0, 0, 0);
+    cube.vertices.push( 0.5, -0.5, -0.5 , 0, 0, -1.0, 0, 0);
+    cube.vertices.push( 0.5,  0.5, -0.5 , 0, 0, -1.0, 0, 0);
+    cube.vertices.push(-0.5,  0.5, -0.5 , 0, 0, -1.0, 0, 0);
+
+    cube.elements.push(0);
+    cube.elements.push(3);
+    cube.elements.push(1);
+
+    cube.elements.push(1);
+    cube.elements.push(3);
+    cube.elements.push(2);
+
+    // TOP
+
+    cube.vertices.push(-0.5, -0.5, 0.5 , 0, 0, 1.0, 0, 0);
+    cube.vertices.push( 0.5, -0.5, 0.5 , 0, 0, 1.0, 0, 0);
+    cube.vertices.push( 0.5,  0.5, 0.5 , 0, 0, 1.0, 0, 0);
+    cube.vertices.push(-0.5,  0.5, 0.5 , 0, 0, 1.0, 0, 0);
+
+    cube.elements.push(4);
+    cube.elements.push(5);
+    cube.elements.push(7);
+
+    cube.elements.push(5);
+    cube.elements.push(6);
+    cube.elements.push(7);
+
+
+    // FRONT
+
+    cube.vertices.push(-0.5, -0.5, -0.5 , 0, -1.0, 0.0, 0, 0);
+    cube.vertices.push( 0.5, -0.5, -0.5 , 0, -1.0, 0.0, 0, 0);
+    cube.vertices.push( 0.5, -0.5,  0.5 , 0, -1.0, 0.0, 0, 0);
+    cube.vertices.push(-0.5, -0.5,  0.5 , 0, -1.0, 0.0, 0, 0);
+
+    cube.elements.push(8);
+    cube.elements.push(9);
+    cube.elements.push(11);
+
+    cube.elements.push(9);
+    cube.elements.push(10);
+    cube.elements.push(11);
+
+    // BACK
+
+    cube.vertices.push(-0.5, 0.5, -0.5 , 0, 1.0, 0.0, 0, 0);
+    cube.vertices.push( 0.5, 0.5, -0.5 , 0, 1.0, 0.0, 0, 0);
+    cube.vertices.push( 0.5, 0.5,  0.5 , 0, 1.0, 0.0, 0, 0);
+    cube.vertices.push(-0.5, 0.5,  0.5 , 0, 1.0, 0.0, 0, 0);
+
+    cube.elements.push(12);
+    cube.elements.push(13);
+    cube.elements.push(15);
+
+    cube.elements.push(13);
+    cube.elements.push(14);
+    cube.elements.push(15);
+
+    // RIGHT
+    cube.vertices.push( 0.5, -0.5, -0.5 , 1.0, 0, 0  ,0, 0);
+    cube.vertices.push( 0.5,  0.5, -0.5 , 1.0, 0, 0  ,0, 0);
+    cube.vertices.push( 0.5,  0.5,  0.5 , 1.0, 0, 0  ,0, 0);
+    cube.vertices.push( 0.5, -0.5,  0.5 , 1.0, 0, 0  ,0, 0);
+
+    cube.elements.push(16);
+    cube.elements.push(17);
+    cube.elements.push(19);
+
+    cube.elements.push(17);
+    cube.elements.push(18);
+    cube.elements.push(19);
+
+    // LEFT
+
+    cube.vertices.push(-0.5, -0.5, -0.5 , -1.0, 0, 0  ,0, 0);
+    cube.vertices.push(-0.5,  0.5, -0.5 , -1.0, 0, 0  ,0, 0);
+    cube.vertices.push(-0.5,  0.5,  0.5 , -1.0, 0, 0  ,0, 0);
+    cube.vertices.push(-0.5, -0.5,  0.5 , -1.0, 0, 0  ,0, 0);
+
+    cube.elements.push(20);
+    cube.elements.push(21);
+    cube.elements.push(23);
+
+    cube.elements.push(21);
+    cube.elements.push(22);
+    cube.elements.push(23);
+
+    return cube;
 }
